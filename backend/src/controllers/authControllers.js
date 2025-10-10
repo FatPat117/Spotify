@@ -1,4 +1,4 @@
-const authCallback = async (req, res) => {
+const authCallback = async (req, res, next) => {
         try {
                 const { id, firstName, lastName, imageUrl } = req.body;
 
@@ -15,7 +15,7 @@ const authCallback = async (req, res) => {
                 res.status(200).json({ message: "User created successfully" });
         } catch (error) {
                 console.log("Error in auth fallback", error);
-                res.status(500).json({ message: "Internal server error" });
+                next(error);
         }
 };
 
