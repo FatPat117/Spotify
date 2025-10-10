@@ -8,9 +8,14 @@ import songRoutes from "./routes/songRoutes.js";
 import statRoutes from "./routes/statRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
+// Config
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
+
+// Middleware
+app.use(express.json()); // to parse express.json
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
