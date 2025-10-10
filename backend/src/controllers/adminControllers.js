@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { cloudinary } from "../lib/cloudinary.js";
+import cloudinary from "../lib/cloudinary.js";
 import Album from "../models/albumModel.js";
 import Song from "../models/songModel.js";
 //helper function to upload to cloudinary

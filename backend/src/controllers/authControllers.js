@@ -1,3 +1,4 @@
+import User from "../models/userModel.js";
 const authCallback = async (req, res, next) => {
         try {
                 const { id, firstName, lastName, imageUrl } = req.body;
@@ -6,13 +7,20 @@ const authCallback = async (req, res, next) => {
                 const user = await User.findOne({ clerkId: id });
 
                 if (!user) {
-                        await User.create({
+                        const newUser = await User.create({
                                 clerkId: id,
                                 fullName: `${firstName} ${lastName}`,
                                 imageUrl,
                         });
+                        res.status(200).json({
+                                message: "User created successfully",
+                                user: newUser,
+                        });
                 }
-                res.status(200).json({ message: "User created successfully" });
+                res.status(200).json({
+                        message: "User already exists",
+                        user: user,
+                });
         } catch (error) {
                 console.log("Error in auth fallback", error);
                 next(error);
