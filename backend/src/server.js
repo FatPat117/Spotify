@@ -1,5 +1,7 @@
+import { clerkMiddleware } from "@clerk/express";
 import dotenv from "dotenv";
 import express from "express";
+
 import { connectDB } from "./lib/db.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import albumRoutes from "./routes/albumRoutes.js";
@@ -16,6 +18,7 @@ const app = express();
 // Middleware
 app.use(express.json()); // to parse express.json
 app.use(express.urlencoded({ extended: true }));
+app.use(clerkMiddleware()); // this will add auth to req obj => access through req.auth
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
