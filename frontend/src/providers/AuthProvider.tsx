@@ -23,7 +23,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                                 updateApiToken(token);
 
                                 if (token) {
-                                        console.log(token);
+                                        // console.log(token);
                                 }
                         } catch (error) {
                                 updateApiToken(null);
