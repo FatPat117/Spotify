@@ -12,7 +12,7 @@ const authCallback = async (req, res, next) => {
                                 fullName: `${firstName} ${lastName}`,
                                 imageUrl,
                         });
-                        res.status(200).json({
+                        return res.status(200).json({
                                 message: "User created successfully",
                                 user: newUser,
                         });

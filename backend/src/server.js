@@ -1,4 +1,5 @@
 import { clerkMiddleware } from "@clerk/express";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import fileUpload from "express-fileupload";
@@ -18,9 +19,9 @@ const app = express();
 const __dirname = path.resolve();
 
 // Middleware
+app.use(clerkMiddleware()); // this will add auth to req obj => access through req.auth
 app.use(express.json()); // to parse express.json
 app.use(express.urlencoded({ extended: true }));
-app.use(clerkMiddleware()); // this will add auth to req obj => access through req.auth
 app.use(
         fileUpload({
                 useTempFiles: true,
@@ -29,6 +30,12 @@ app.use(
                 limits: {
                         fileSize: 10 * 1024 * 1024,
                 },
+        })
+);
+app.use(
+        cors({
+                origin: "http://localhost:3000",
+                credentials: true,
         })
 );
 
