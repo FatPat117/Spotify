@@ -107,7 +107,7 @@ const deleteAlbum = async (req, res, next) => {
 
 const checkAdmin = async (req, res, next) => {
         try {
-                res.status(200).json({ message: "Admin checked successfully" });
+                res.status(200).json({ isAdmin: true, message: "Admin checked successfully" });
         } catch (error) {
                 console.log("Error in check admin", error);
                 next(error);

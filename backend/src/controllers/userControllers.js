@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 const getAllUser = async (req, res, next) => {
         try {
-                const currentUserId = req.auth.userId;
+                const { userId: currentUserId } = req.auth();
                 const users = await User.find({ clerkId: { $ne: currentUserId } });
                 res.status(200).json(users);
         } catch (error) {
