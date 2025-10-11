@@ -7,8 +7,10 @@ interface MusicStore {
         songs: Song[];
         isLoading: boolean;
         error: string | null;
+        currentAlbum: Album | null;
 
         fetchAlbums: () => Promise<void>;
+        fetchAlbumById: (albumId: string) => Promise<void>;
 }
 
 export const useMusicStore = create<MusicStore>((set) => ({
@@ -16,6 +18,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
         songs: [],
         isLoading: false,
         error: null,
+        currentAlbum: null,
         fetchAlbums: async () => {
                 try {
                         set({ isLoading: true, error: null, albums: [] });
@@ -26,6 +29,19 @@ export const useMusicStore = create<MusicStore>((set) => ({
                 } catch (error: any) {
                         set({ error: error?.response?.data?.message });
                         console.log(error);
+                } finally {
+                        set({ isLoading: false });
+                }
+        },
+        fetchAlbumById: async (albumId: string) => {
+                try {
+                        set({ isLoading: true, error: null });
+                        const response = await axiosInstance.get(`/albums/${albumId}`);
+                        set({ currentAlbum: response.data });
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                } catch (error: any) {
+                        set({ error: error?.response?.data?.message });
+                        console.log("Error fetching album by id", error);
                 } finally {
                         set({ isLoading: false });
                 }
