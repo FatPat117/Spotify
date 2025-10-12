@@ -1,6 +1,7 @@
 import Topbar from "@/components/Topbar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMusicStore } from "@/store/useMusicStore";
+import { usePlayerStore } from "@/store/usePlayerStore";
 import { useEffect } from "react";
 import FeaturedSection from "./FeaturedSection";
 import MadeForYouSection from "./MadeForYouSection";
@@ -11,7 +12,9 @@ const HomePage = () => {
                 fetchFeaturedSongs,
                 fetchTrendingSongs,
                 fetchMadeForYouSongs,
-
+                madeForYouSongs,
+                featuredSongs,
+                trendingSongs,
                 isLoading,
         } = useMusicStore();
 
@@ -20,6 +23,14 @@ const HomePage = () => {
                 fetchTrendingSongs();
                 fetchMadeForYouSongs();
         }, [fetchFeaturedSongs, fetchTrendingSongs, fetchMadeForYouSongs]);
+
+        const { initializeQueue } = usePlayerStore();
+        useEffect(() => {
+                if (madeForYouSongs.length >= 0 && featuredSongs.length >= 0 && trendingSongs.length >= 0) {
+                        const allSongs = [...madeForYouSongs, ...featuredSongs, ...trendingSongs];
+                        initializeQueue(allSongs);
+                }
+        }, [madeForYouSongs, featuredSongs, trendingSongs, initializeQueue]);
 
         if (isLoading) return null;
         return (

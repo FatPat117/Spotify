@@ -1,11 +1,21 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import AudioPlayer from "./AudioPlayer";
 import FriendActivity from "./FriendActivity";
 import LeftSidebar from "./LeftSidebar";
-
+import PlaybackControls from "./PlaybackControls";
 const MainLayout = () => {
-        const isMobile = false;
+        const [isMobile, setIsMobile] = useState(false);
+
+        useEffect(() => {
+                const checkMobile = () => {
+                        setIsMobile(window.innerWidth < 768);
+                };
+                checkMobile();
+                window.addEventListener("resize", checkMobile);
+        }, []);
+
         return (
                 <div className="h-screen w-full bg-black text-white flex flex-col">
                         <ResizablePanelGroup direction="horizontal" className="flex-1 flex h-full overflow-hidden">
@@ -22,12 +32,23 @@ const MainLayout = () => {
                                         <Outlet />
                                 </ResizablePanel>
 
-                                <ResizableHandle className="w-2 bg-black rounded-lg transition-colors" />
-                                {/* Right sidebar */}
-                                <ResizablePanel defaultSize={20} minSize={0} maxSize={25} collapsedSize={0}>
-                                        <FriendActivity />
-                                </ResizablePanel>
+                                {!isMobile && (
+                                        <>
+                                                <ResizableHandle className="w-2 bg-black rounded-lg transition-colors" />
+                                                {/* Right sidebar */}
+                                                <ResizablePanel
+                                                        defaultSize={20}
+                                                        minSize={0}
+                                                        maxSize={25}
+                                                        collapsedSize={0}
+                                                >
+                                                        <FriendActivity />
+                                                </ResizablePanel>
+                                        </>
+                                )}
                         </ResizablePanelGroup>
+
+                        <PlaybackControls />
                 </div>
         );
 };
