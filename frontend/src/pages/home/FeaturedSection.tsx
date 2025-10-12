@@ -1,6 +1,6 @@
 import FeaturedSectionSkeleton from "@/components/skeletons/FeaturedSectionSkeleton";
 import { useMusicStore } from "@/store/useMusicStore";
-import { PlayIcon } from "lucide-react";
+import PlayButton from "./PlayButton";
 
 const FeaturedSection = () => {
         const { isLoading, featuredSongs, error } = useMusicStore();
@@ -26,7 +26,7 @@ const FeaturedSection = () => {
                                                 <p className="font-medium truncate">{song.title}</p>
                                                 <p className="text-sm text-zinc-400 truncate">{song.artist}</p>
                                         </div>
-                                        <PlayIcon className="size-6 text-zinc-400 group-hover:text-white transition-colors" />
+                                        <PlayButton song={song} />
                                 </div>
                         ))}
                 </div>

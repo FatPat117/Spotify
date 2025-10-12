@@ -1,6 +1,7 @@
 import TrendingSectionSkeleton from "@/components/skeletons/TrendingSectionSkeleton";
 import { Button } from "@/components/ui/button";
 import { useMusicStore } from "@/store/useMusicStore";
+import PlayButton from "./PlayButton";
 
 const TrendingSection = () => {
         const { isLoading, trendingSongs, error } = useMusicStore();
@@ -34,6 +35,7 @@ const TrendingSection = () => {
                                                                         alt={song.title}
                                                                         className="w-full h-full object-cover transition-transform group-hover:scale-110"
                                                                 />
+                                                                <PlayButton song={song} />
                                                         </div>
                                                 </div>
                                                 <h3 className="font-medium mb-2 truncate">{song.title}</h3>

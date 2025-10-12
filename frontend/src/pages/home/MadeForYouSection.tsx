@@ -1,6 +1,7 @@
 import MadeForYouSectionSkeleton from "@/components/skeletons/MadeForYouSectionSkeleton";
 import { Button } from "@/components/ui/button";
 import { useMusicStore } from "@/store/useMusicStore";
+import PlayButton from "./PlayButton";
 
 const MadeForYouSection = () => {
         const { isLoading, madeForYouSongs, error } = useMusicStore();
@@ -34,6 +35,7 @@ const MadeForYouSection = () => {
                                                                         alt={song.title}
                                                                         className="w-full h-full object-cover transition-transform group-hover:scale-110"
                                                                 />
+                                                                <PlayButton song={song} />
                                                         </div>
                                                 </div>
 
