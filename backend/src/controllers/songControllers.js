@@ -1,7 +1,7 @@
 import Song from "../models/songModel.js";
 const getAllSongs = async (req, res, next) => {
         try {
-                const songs = await Song.find().populate("album").sort({ createdAt: -1 });
+                const songs = await Song.find().populate("albumId").sort({ createdAt: -1 });
                 res.status(200).json(songs);
         } catch (error) {
                 console.log("Error in get all songs", error);

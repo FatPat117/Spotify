@@ -27,7 +27,7 @@ const getAllStats = async (req, res, next) => {
                         totalSongs,
                         totalUsers,
                         totalAlbums,
-                        uniqueArtists: uniqueArtists[0]?.count || 0,
+                        totalArtists: uniqueArtists[0]?.count || 0,
                 });
         } catch (error) {
                 console.log("Error in get all stats", error);

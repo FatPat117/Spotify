@@ -1,10 +1,10 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import AudioPlayer from "./AudioPlayer";
-import FriendActivity from "./FriendActivity";
-import LeftSidebar from "./LeftSidebar";
-import PlaybackControls from "./PlaybackControls";
+import AudioPlayer from "./components/AudioPlayer";
+import FriendActivity from "./components/FriendActivity";
+import LeftSidebar from "./components/LeftSidebar";
+import PlaybackControls from "./components/PlaybackControls";
 const MainLayout = () => {
         const [isMobile, setIsMobile] = useState(false);
 
