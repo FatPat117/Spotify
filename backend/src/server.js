@@ -3,8 +3,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import fileUpload from "express-fileupload";
+import { createServer } from "http";
 import path from "path";
 import { connectDB } from "./lib/db.js";
+import { initializeSocket } from "./lib/socket.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import albumRoutes from "./routes/albumRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -53,7 +55,12 @@ app.use((err, req, res, next) => {
                 message: process.env.NODE_ENV === "development" ? err.message : "Internal server error",
         });
 });
-app.listen(PORT, () => {
+
+// Socket.io
+const httpServer = createServer(app);
+initializeSocket(httpServer);
+
+httpServer.listen(PORT, () => {
         console.log("server is running on port 5000");
         connectDB();
 });
