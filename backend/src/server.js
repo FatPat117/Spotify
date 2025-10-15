@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import fileUpload from "express-fileupload";
+import fs from "fs";
 import { createServer } from "http";
+import cron from "node-cron";
 import path from "path";
 import { connectDB } from "./lib/db.js";
 import { initializeSocket } from "./lib/socket.js";
@@ -41,12 +43,42 @@ app.use(
         })
 );
 
+const tempDir = path.join(__dirname, "tmp");
+// Delete file every 7 day
+cron.schedule("0 0 * * *", () => {
+        if (fs.existsSync(tempDir)) {
+                fs.readdir(tempDir, (err, files) => {
+                        if (err) {
+                                console.error("Error reading temp directory:", err);
+                                return;
+                        }
+                        files.forEach((file) => {
+                                const filePath = path.join(tempDir, file);
+                                const fileStats = fs.statSync(filePath);
+                                if (
+                                        fileStats.isFile() &&
+                                        fileStats.mtime < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+                                ) {
+                                        fs.unlinkSync(filePath);
+                                }
+                        });
+                });
+        }
+});
+
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/api/stats", statRoutes);
+
+if (process.env.NODE_ENV == "production") {
+        app.use(express.static(path.join(__dirname, "../frontend/dist")));
+        app.get("*", (req, res) => {
+                res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+        });
+}
 
 // Error
 app.use((err, req, res, next) => {
