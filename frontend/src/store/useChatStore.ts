@@ -3,8 +3,7 @@ import type { Message, User } from "@/types";
 import { io } from "socket.io-client";
 import { create } from "zustand";
 interface ChatStore {
-        //eslint-disable-next-line @typescript-eslint/no-explicit-any
-        users: any[];
+        users: User[];
         isLoading: boolean;
         error: string | null;
         //eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,7 +32,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         users: [],
         isLoading: true,
         error: null,
-        socket: null,
+        socket: socket,
         isConnected: false,
         onlineUsers: new Set(),
         userActivities: new Map(),

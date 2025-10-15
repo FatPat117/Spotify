@@ -9,7 +9,7 @@ const authCallback = async (req, res, next) => {
                 if (!user) {
                         const newUser = await User.create({
                                 clerkId: id,
-                                fullName: `${firstName} ${lastName}`,
+                                fullName: `${firstName || ""} ${lastName || ""}`.trim(),
                                 imageUrl,
                         });
                         return res.status(200).json({
